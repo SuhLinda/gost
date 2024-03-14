@@ -8,13 +8,12 @@ import List from '../List/List';
 import './App.css';
 
 function App() {
-  const [listCards, setListCards] = useState(JSON.parse(localStorage.getItem('list')) || []);
+  const [listCards, setListCards] = useState([]);
 
   useEffect(() => {
     oksApi.getOks()
       .then((listCards) => {
         setListCards(listCards);
-        localStorage.setItem('list', JSON.stringify(listCards));
       })
       .catch((err) => {
         console.log(`ошибка: ${err}`);
@@ -24,19 +23,11 @@ function App() {
       })
   }, []);
 
-  async function handleWordsSearch(words, search) {
-
-    return listCards.filter((words) => {
-      console.log(words, search)
-    })
-  }
-
   return (
     <div className="app">
       <Announcement
         listCards={listCards}
         setListCards={setListCards}
-        onSearch={handleWordsSearch}
       />
       <List
         listCards={listCards}
