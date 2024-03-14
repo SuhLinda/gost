@@ -1,0 +1,15 @@
+.card {
+  gap: 10px;
+  width: 100%;
+  max-height: max-content;
+  margin: 0;
+}
+
+.card__text {
+  text-align: start;
+  font-weight: lighter;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 14px;
+  margin: 5px 0;
+}
