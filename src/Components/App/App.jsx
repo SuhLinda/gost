@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-import { oksApi } from '../../utils/ApiOks';
-import { LIST, ERROR } from '../../utils/utils';
+import {oksApi} from '../../utils/ApiOks';
+import {LIST, ERROR} from '../../utils/utils';
 
 import Announcement from '../Announcement/Announcement';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
@@ -45,15 +45,17 @@ function App() {
         setIsLoading={setIsLoading}
         openInfoTooltip={openInfoTooltip}
         closeInfoTooltip={closeInfoTooltip}
+        setImage={setImage}
+        setText={setText}
       />
-      {/*<InfoTooltip*/}
-      {/*  image={image}*/}
-      {/*  text={text}*/}
-      {/*  isOpen={isInfoTooltipOpen}*/}
-      {/*  onClose={closeInfoTooltip}*/}
-      {/*/>*/}
+      <InfoTooltip
+        image={image}
+        text={text}
+        isOpen={isInfoTooltipOpen}
+        onClose={closeInfoTooltip}
+      />
     </div>
-  );
+  )
 }
 
 export default App;

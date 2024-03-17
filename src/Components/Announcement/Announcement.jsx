@@ -11,14 +11,17 @@ import {
   TEXT_BASED_OKS,
   CARD,
   SELECT_OKS_SECTION,
+  SUCCESSFULLY_POSTED,
 } from '../../utils/utils.jsx';
+
+import imageInfoTooltipSuccess from '../../images/info-tooltip_successfully.svg';
 
 import Option from '../Option/Option';
 import List from '../List/List';
 import Results from '../Results/Results';
 import Preloader from '../Preloader/Preloader';
 
-function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
+function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, setImage, setText }) {
   const [search, setSearch] = useState([]);
   const [arrSearch, setArrSearch] = useState({});
   const [data, setData] = useState([]);
@@ -26,6 +29,8 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
   const [coincidence, setCoincidence] = useState(false);
   const [isSearchErr, setIsSearchErr] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [value, setValue] = useState([]);
+  const [valueSelect, setValueSelect] = useState([]);
 
   async function handleWordsSearch() {
 
@@ -44,51 +49,63 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
                 results.push(element);
               })
               setData(results);
+
             })
             .catch((err) => {
               console.log(`ошибка: ${err}`);
             })
-        } else {
-          //вывести окно с предложением о несоответствии с базой
         }
       } catch (err) {
         console.log(`ошибка: ${err}`);
-      } finally {
-        //
       }
     }
   }
 
-  async function handleChange(evt) {
+  function handleChange(evt) {
 
     evt.preventDefault();
-
+    //достаём список из локального хранилища
     const arrOks = JSON.parse(localStorage.getItem(LIST));
 
+    // переменная для хранения массива данных
     // Init an array for holding rows data
     let oks = [];
-
+    // проходим массив для поиска выбранных данных
     arrOks.forEach((element) => {
+      const valueSelect = evt.target.value;
 
-      if (element.name === evt.target.value) {
-        oks.push(element);
-        if (evt.shiftKey) {
-
-            console.log('item')
-
+      if (evt.target.click) {
+        //сравниваем элемент с выбранным пользователем элементом
+        if (valueSelect === element.name) {
+          //закидываем нужную переменную в наш массив
+          oks.push(element);
+          console.log('cdcdcdc')
+          //условия для множественного выбора
+          if (evt.shiftKey !== valueSelect && evt.target.click) {
+            console.log('cdwer3we')
+            oks.push(element);
+          }
         }
       }
     })
+    //сохраним полученные данные в стейт переменную
     setChoice(oks);
+    //активируем вывод списка
     setCoincidence(true);
+    //убираем ошибку
     setIsSearchErr(false);
+    //активируем кнопку размещения объявления
     setIsDisabled(false);
-
+    //сохраняем в локалку выбранные данные
     localStorage.setItem(CARD, JSON.stringify(oks));
   }
 
   function handleSearchChange(evt) {
     setSearch(evt.target.value);
+  }
+
+  function handleValueChange(evt) {
+    setValue(evt.target.value)
   }
 
   function handleSearchSubmit(evt) {
@@ -103,6 +120,8 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
 
   function handleBtnClick() {
     openInfoTooltip();
+    setImage(imageInfoTooltipSuccess);
+    setText(`${ANNOUNCEMENT} ${value} ${SUCCESSFULLY_POSTED}`);
   }
 
   return (
@@ -119,7 +138,9 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
             className="announcement__input"
             placeholder="Введите название объявления"
             type="text"
-            minLength="10"
+            name="name"
+            minLength="2"
+            onChange={handleValueChange}
           />
           <label className="announcement__label">{ANNOUNCEMENT}</label>
           <textarea

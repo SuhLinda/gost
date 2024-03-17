@@ -9,10 +9,6 @@ function Card({ code, name, price, choice }) {
         <h3 className="card__text">{name}</h3>
         <h3 className="card__text">{`${price} p`}</h3>
       </ul>
-      <span className="card__vector"></span>
-      <p className="card__sum">ИТОГО:&nbsp;
-        <span>{numberFormat(price)} ₽</span>
-      </p>
     </>
   )
 }
