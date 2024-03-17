@@ -20,3 +20,5 @@ export const CODE = 'Код';
 export const PRICE = 'Цена';
 
 export const CODE_OKS = 'Код ОКС: ';
+
+export const SELECT_OKS_SECTION= 'Для размещения объявления, выберите хотя бы один раздел ОКС';

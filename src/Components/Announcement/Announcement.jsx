@@ -9,7 +9,8 @@ import {
   OKS,
   PLACE_AN_AD,
   TEXT_BASED_OKS,
-  CARD
+  CARD,
+  SELECT_OKS_SECTION,
 } from '../../utils/utils.jsx';
 
 import Option from '../Option/Option';
@@ -17,15 +18,17 @@ import List from '../List/List';
 import Results from '../Results/Results';
 import Preloader from '../Preloader/Preloader';
 
-function Announcement({listCards, isLoading, setIsLoading}) {
+function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip }) {
   const [search, setSearch] = useState([]);
   const [arrSearch, setArrSearch] = useState({});
   const [data, setData] = useState([]);
   const [choice, setChoice] = useState([]);
   const [coincidence, setCoincidence] = useState(false);
-
+  const [isSearchErr, setIsSearchErr] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   async function handleWordsSearch() {
+
     if (search.length > 0) {
       try {
         const arrSearch = search.match(regexp);
@@ -40,7 +43,6 @@ function Announcement({listCards, isLoading, setIsLoading}) {
               data.forEach((element) => {
                 results.push(element);
               })
-
               setData(results);
             })
             .catch((err) => {
@@ -70,7 +72,7 @@ function Announcement({listCards, isLoading, setIsLoading}) {
 
       if (element.name === evt.target.value) {
         oks.push(element);
-        if (evt) {
+        if (evt.shiftKey) {
 
             console.log('item')
 
@@ -79,6 +81,8 @@ function Announcement({listCards, isLoading, setIsLoading}) {
     })
     setChoice(oks);
     setCoincidence(true);
+    setIsSearchErr(false);
+    setIsDisabled(false);
 
     localStorage.setItem(CARD, JSON.stringify(oks));
   }
@@ -91,10 +95,14 @@ function Announcement({listCards, isLoading, setIsLoading}) {
     evt.preventDefault();
 
     if (!search) {
-      //setIsSearchErr(true);
+      setIsSearchErr(true);
       return;
     }
     handleWordsSearch();
+  }
+
+  function handleBtnClick() {
+    openInfoTooltip();
   }
 
   return (
@@ -142,13 +150,27 @@ function Announcement({listCards, isLoading, setIsLoading}) {
             </select>
           )}
         </fieldset>
+        {isSearchErr &&
+          <span className="announcement__error">{SELECT_OKS_SECTION}</span>
+        }
         <div className="announcement__btns">
-          <button
+          {isDisabled ? (
+            <button
             className="announcement__btn"
             type="button"
+            disabled="disabled"
           >
             {PLACE_AN_AD}
           </button>
+          ) : (
+              <button
+              className="announcement__btn"
+              type="button"
+              onClick={handleBtnClick}
+            >
+              {PLACE_AN_AD}
+            </button>
+            )}
           <button
             className="announcement__btn"
             type="submit"
@@ -165,7 +187,8 @@ function Announcement({listCards, isLoading, setIsLoading}) {
         key={data.query}
         data={data}
       />
-    </section>)
+    </section>
+  )
 }
 
 export default Announcement;
