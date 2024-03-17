@@ -1,4 +1,9 @@
 .card {
+  display: none;
+}
+
+.card__active {
+  display: flex;
   gap: 10px;
   width: 100%;
   max-height: max-content;
@@ -12,4 +17,12 @@
   font-size: 14px;
   line-height: 14px;
   margin: 5px 0;
+}
+
+.card__vector {
+  border: #000000 solid .5px;
+}
+
+.card__sum {
+  text-align: end;
 }

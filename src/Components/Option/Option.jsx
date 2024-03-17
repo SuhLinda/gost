@@ -1,11 +1,9 @@
-import './Option.css';
-
-function Option({ code, name }) {
+function Option({ code, name, value }) {
   return (
-    <option>
+    <option className="option" value={value}>
       {`${code} ${name}`}
     </option>
-)
+  )
 }
 
 export default Option;

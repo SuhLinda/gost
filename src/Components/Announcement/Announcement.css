@@ -3,7 +3,8 @@
   margin: 30px auto;
 }
 
-.announcement__title {
+.announcement__title,
+.announcement__code {
   font-weight: 700;
   font-size: 30px;
   line-height: 22px;
@@ -20,7 +21,6 @@
 .announcement__fieldset {
   display: flex;
   flex-direction: column;
-  align-items: center;
   font-weight: 300;
   font-size: 14px;
   border: none;
@@ -31,11 +31,11 @@
 .announcement__label {
   font-size: 12px;
   max-width: max-content;
-  padding-left: 10px;
   margin: 10px 0 5px 10px;
 }
 
 .announcement__input {
+  align-self: center;
   width: 100%;
   font-family: 'Roboto', 'Arial', 'sans-serif';
   text-align: start;
@@ -61,7 +61,6 @@
   font-family: 'Roboto', 'Arial', 'sans-serif';
   font-style: normal;
   line-height: 20px;
-  border-radius: 5px;
   border-color: #000000;
   text-align: center;
   font-size: 10px;
@@ -73,6 +72,7 @@
   justify-content: center;
   align-items: center;
   background-color: #bdbbbb;
+  border-radius: 5px;
   width: 300px;
   height: 50px;
   padding: 0 10px;
@@ -86,6 +86,7 @@
 .announcement__select {
   display: flex;
   flex-direction: column;
+  align-self: center;
   max-width: 100%;
   min-height: 187px;
   outline: none;
@@ -96,11 +97,21 @@
   cursor: pointer;
 }
 
+.announcement__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media screen and (max-width: 700px) {
   .announcement__input,
   .announcement__textarea,
   .announcement__select
   {
     width: 70%;
+  }
+
+  .announcement__label {
+    margin: 10px auto;
   }
 }

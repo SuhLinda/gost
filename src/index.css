@@ -1,2 +1,10 @@
 @import url(../src/vendor/normalize.css);
 @import url(../src/vendor/fonts.css);
+
+@import url(../src/Components/App/App.css);
+@import url(../src/Components/Announcement/Announcement.css);
+@import url(../src/Components/List/List.css);
+@import url(../src/Components/Option/Option.css);
+@import url(../src/Components/Card/Card.css);
+@import url(../src/Components/Results/Results.css);
+@import url(../src/Components/Preloader/Preloader.css);

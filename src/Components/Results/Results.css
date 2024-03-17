@@ -1,0 +1,14 @@
+.results {
+  display: flex;
+  padding: 0;
+  margin: 10px 30px 0;
+}
+
+.results__text {
+  list-style-type: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  width: max-content;
+  margin: 5px 20px 0;
+}

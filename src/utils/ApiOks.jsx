@@ -17,7 +17,7 @@ class ApiOks{
       .then(this._checkTheAnswer);
   }
 
-  updateOks(query) {
+  searchOks(query) {
     return fetch(`${this._url}/query-oks`, {
       method: 'POST',
       body: JSON.stringify({ query }),

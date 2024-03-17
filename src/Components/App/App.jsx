@@ -1,25 +1,26 @@
 import { useState, useEffect } from 'react';
 
-import { oksApi } from '../../utils/ApiOks.jsx';
+import { oksApi } from '../../utils/ApiOks';
+import { LIST, ERROR } from '../../utils/utils';
 
 import Announcement from '../Announcement/Announcement';
-import List from '../List/List';
-
-import './App.css';
 
 function App() {
   const [listCards, setListCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     oksApi.getOks()
       .then((listCards) => {
+        setIsLoading(true);
         setListCards(listCards);
+        localStorage.setItem(LIST, JSON.stringify(listCards));
       })
       .catch((err) => {
-        console.log(`ошибка: ${err}`);
+        console.log(`ERROR ${err}`);
       })
       .finally(() => {
-
+        setIsLoading(false);
       })
   }, []);
 
@@ -28,10 +29,8 @@ function App() {
       <Announcement
         listCards={listCards}
         setListCards={setListCards}
-      />
-      <List
-        listCards={listCards}
-        setListCards={setListCards}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
     </div>
   );

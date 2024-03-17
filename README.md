@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+### **test project for antest project for an GOST**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+### launching and debugging the project
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Описание**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+создана интерактивная форма для создания объявления. Форма содержит следующие поля:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Название объявления, input;
+2. Описание, textarea;
+3. Список множественного выбора разделов ОКС (Общероссийский классификатор стандартов), select multiple;
+4. Кнопка «Разместить объявление»;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+При загрузке страницы отображаем форму вместе со списком выбора разделов ОКС.
 
-## Learn More
+Создана кнопка «Подобрать ОКС на основе текста объявления». 
+При нажатии на кнопку, в тексте, введенном пользователем в textarea происходит поиск номеров гостов по маске «слово ГОСТ, пробел, 
+последовательность из чисел (от трех до пяти), которая может дополняться тире и годом (в виде двух или четырех чисел)», например «ГОСТ 8682», 
+«ГОСТ 530-2012», «ГОСТ 14202-69». Далее по API получаем коды разделов ОКС для каждого госта.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+После получения кодов ОКС, автоматически активируем соответствующие значения в  списке. Далее, 
+отображаем выбранные значения в виде текстовой сводки под формой. Сводка включает в себя код ОКС, название раздела ОКС, а
+также справа указывается цена за размещение объявления в данном разделе. Ниже указывается общая сумма к оплате за размещение во всех выбранных 
+разделах. Напротив каждого раздела ОКС в сводке предусмотреть «крестик» для удаления выбранного раздела. После удаления раздела из сводки 
+происходит обновление списка множественного выбора и общей цены. При изменении выбора разделов в списке, происходит обновление сводки и пересчет цены.
+Если API нам выдало несколько одинаковых кодов ОКС, в текстовой сводке необходимо отображать только уникальные разделы.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Если ни один из разделов ОКС не выбран, кнопка «Разместить объявление» неактивна и выводится сообщение «Для размещения объявления, 
+выберите хотя бы один раздел ОКС». Если хотя бы один раздел ОКС выбран, нажатие на кнопку «Разместить объявление» выводит сообщение об успешном 
+размещении объявления с названием, указанным пользователем в форме.

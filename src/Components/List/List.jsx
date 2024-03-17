@@ -1,21 +1,23 @@
+import { CODE, NAME, PRICE } from '../../utils/utils';
+
 import Card from '../Card/Card';
 
-import './List.css';
-
-function List({ listCards, setListCards }) {
+function List({ choice, coincidence }) {
 
   return (
-    <section className="list">
+    <section className={coincidence ? "list__active" : "list"}>
       <ul className="list__container">
-        <h3 className="list__title">Код</h3>
-        <h3 className="list__title">Название</h3>
-        <h3 className="list__title">Цена</h3>
+        <h3 className="list__title">{CODE}</h3>
+        <h3 className="list__title">{NAME}</h3>
+        <h3 className="list__title">{PRICE}</h3>
       </ul>
-      {listCards.map((item) => {
+      {choice.map((item) => {
         return <Card
+          key={item.code}
           code={item.code}
           name={item.name}
           price={item.price}
+          choice={choice}
         />
       })}
     </section>
