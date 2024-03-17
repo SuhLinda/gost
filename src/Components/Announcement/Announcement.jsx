@@ -30,7 +30,7 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
   const [isSearchErr, setIsSearchErr] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [value, setValue] = useState([]);
-  const [valueSelect, setValueSelect] = useState([]);
+  const [sum, setSum] = useState([]);
 
   async function handleWordsSearch() {
 
@@ -62,42 +62,44 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
   }
 
   function handleChange(evt) {
-
     evt.preventDefault();
-    //достаём список из локального хранилища
+
     const arrOks = JSON.parse(localStorage.getItem(LIST));
+    let selectedOks = [];
+    let sumOks = [];
+    let options = evt.target.options;
 
-    // переменная для хранения массива данных
-    // Init an array for holding rows data
-    let oks = [];
-    // проходим массив для поиска выбранных данных
-    arrOks.forEach((element) => {
-      const valueSelect = evt.target.value;
-
-      if (evt.target.click) {
-        //сравниваем элемент с выбранным пользователем элементом
-        if (valueSelect === element.name) {
-          //закидываем нужную переменную в наш массив
-          oks.push(element);
-          console.log('cdcdcdc')
-          //условия для множественного выбора
-          if (evt.shiftKey !== valueSelect && evt.target.click) {
-            console.log('cdwer3we')
-            oks.push(element);
-          }
-        }
+    let selectedValues = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        selectedValues.push(options[i].value);
       }
-    })
-    //сохраним полученные данные в стейт переменную
-    setChoice(oks);
-    //активируем вывод списка
+    }
+    arrOks.forEach((item) => {
+      selectedValues.forEach((value) => {
+        if (item.name === value) {
+          selectedOks.push(item);
+          sumOks.push(item.price);
+        }
+      })
+    });
+
+    calculateTheAmount();
+
+    setChoice(selectedOks);
+    setSum(sumOks);
     setCoincidence(true);
-    //убираем ошибку
     setIsSearchErr(false);
-    //активируем кнопку размещения объявления
     setIsDisabled(false);
-    //сохраняем в локалку выбранные данные
-    localStorage.setItem(CARD, JSON.stringify(oks));
+    localStorage.setItem(CARD, JSON.stringify(selectedValues));
+  }
+
+  function calculateTheAmount() {
+    if (sum.length > 0) {
+      for (let i = 0, l = sum.length; i < l; i++) {
+        console.log(sum)
+      }
+    }
   }
 
   function handleSearchChange(evt) {
@@ -203,6 +205,8 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
       <List
         choice={choice}
         coincidence={coincidence}
+        sum={sum}
+        setSum={setSum}
       />
       <Results
         key={data.query}
