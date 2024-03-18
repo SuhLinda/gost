@@ -1,7 +1,6 @@
 export const regexp = /ГОСТ\s\d{3,5}(?:-(?:\d{4}|\d{2}))?/gi;
 
 export const LIST = 'list';
-export const CARD= 'card';
 
 export const ANNOUNCEMENT = 'Объявление ';
 
@@ -19,8 +18,9 @@ export const CODE = 'Код';
 
 export const PRICE = 'Цена';
 
-export const CODE_OKS = 'Код ОКС: ';
-
 export const SELECT_OKS_SECTION= 'Для размещения объявления, выберите хотя бы один раздел ОКС';
 
 export const SUCCESSFULLY_POSTED = ' успешно размещено';
+
+export const NUMBER_ZERO = 0;
+

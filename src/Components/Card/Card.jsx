@@ -1,44 +1,44 @@
-import {useState} from "react";
+import { useState } from 'react';
 
-function Card({ code, name, price, choice, setChoice, isSelected, setIsSelected }) {
+function Card({ code, name, price, choice, setChoice, setCoincidence, setIsSearchErr, setIsDisabled }) {
   const [elementIndex, setElementIndex] = useState([]);
 
   function handleClickClose() {
     choice.filter((item) => {
-      // console.log(item.code)
-      return setElementIndex(item.code)
-      // console.log(elementIndex)
+      return setElementIndex(item.code);
     })
 
-    console.log(choice);
-    console.log(elementIndex);
-    let result = choice.splice(elementIndex, 1);
+    choice.splice(elementIndex, 1);
 
     setChoice((state) =>
       state.filter((item) =>
-        item));
+        item
+      ));
 
-    console.log(result);
-    // setIsSelected(false);
+    if (choice.length > 0) {
+      setCoincidence(true);
+      setIsSearchErr(false);
+      setIsDisabled(false);
+    } else {
+      setCoincidence(false);
+      setIsSearchErr(true);
+      setIsDisabled(true);
+    }
   }
 
   return (
-    <>
-      {isSelected &&
-        <ul className={choice ? "list__container card__active" : "list__container card"}>
-          <h3 className="card__text">{code}</h3>
-          <h3 className="card__text">{name}</h3>
-          <h3 className="card__text">{`${price} p`}</h3>
-          <button
-            className="card__btn-close"
-            type="button"
-            onClick={handleClickClose}
-          >
-            X
-          </button>
-        </ul>
-      }
-    </>
+    <ul className={choice ? "list__container card__active" : "list__container card"}>
+      <h3 className="card__text">{code}</h3>
+      <h3 className="card__text">{name}</h3>
+      <h3 className="card__text">{`${price} p`}</h3>
+      <button
+        className="card__btn-close"
+        type="button"
+        onClick={handleClickClose}
+      >
+        X
+      </button>
+    </ul>
   )
 }
 

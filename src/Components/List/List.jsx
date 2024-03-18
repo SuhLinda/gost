@@ -1,10 +1,11 @@
-import { CODE, NAME, PRICE } from '../../utils/utils';
+import { CODE, NAME, PRICE, NUMBER_ZERO } from '../../utils/utils';
+
+import { numberFormat } from '../../utils/functions';
 
 import Card from '../Card/Card';
-import {numberFormat} from "../../utils/functions";
 
-function List({ choice, setChoice, coincidence, isSelected, setIsSelected }) {
-  let total = 0;
+function List({ choice, setChoice, coincidence, setCoincidence, setIsSearchErr, setIsDisabled }) {
+  let total = NUMBER_ZERO;
 
   return (
     <section className={coincidence ? "list__active" : "list"}>
@@ -22,14 +23,16 @@ function List({ choice, setChoice, coincidence, isSelected, setIsSelected }) {
           price={item.price}
           choice={choice}
           setChoice={setChoice}
-          elementIndex={item.code}
-          isSelected={isSelected}
-          setIsSelected={setIsSelected}
+          setCoincidence={setCoincidence}
+          setIsSearchErr={setIsSearchErr}
+          setIsDisabled={setIsDisabled}
         />
       })}
       <span className="card__vector"></span>
       <p className="card__sum">ИТОГО:&nbsp;
-        <span>{numberFormat(total)} ₽</span>
+        <span>
+          {numberFormat(total)} ₽
+        </span>
       </p>
     </section>
   )

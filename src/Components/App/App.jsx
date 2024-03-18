@@ -1,7 +1,7 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
-import {oksApi} from '../../utils/ApiOks';
-import {LIST, ERROR} from '../../utils/utils';
+import { oksApi } from '../../utils/ApiOks';
+import { LIST, ERROR } from '../../utils/utils';
 
 import Announcement from '../Announcement/Announcement';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
@@ -21,7 +21,7 @@ function App() {
         localStorage.setItem(LIST, JSON.stringify(listCards));
       })
       .catch((err) => {
-        console.log(`ERROR ${err}`);
+        console.log(`${ERROR} ${err}`);
       })
       .finally(() => {
         setIsLoading(false);
@@ -40,7 +40,6 @@ function App() {
     <div className="app">
       <Announcement
         listCards={listCards}
-        setListCards={setListCards}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         openInfoTooltip={openInfoTooltip}

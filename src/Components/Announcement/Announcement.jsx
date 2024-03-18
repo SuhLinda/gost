@@ -26,7 +26,7 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
   const [isSearchErr, setIsSearchErr] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [value, setValue] = useState([]);
-  const [isSelected, setIsSelected] = useState(false);
+  const [elementIndex, setElementIndex] = useState([]);
 
   async function handleWordsSearch() {
 
@@ -47,26 +47,38 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
                 results.push(element.results);
               })
 
-              results.forEach((i) => {
-                arrOks.forEach((element) => {
-                  if (element.code !== i) {
-                    console.log(i, element.code)
-                  }
-                })
-
-
+              choice.filter((item) => {
+                return setElementIndex(item);
               })
 
-              // console.log('cxs')
+              results.forEach((item) => {
+                arrOks.forEach((element) => {
+                  item.filter((el) => {
+                    for (let i = 0, l = element.code.length; i < l; i++) {
+                      if (el === element.code) {
+                        arrOksResults.splice(elementIndex, 1);
 
+                        arrOksResults.push(element);
+                        console.log(arrOksResults)
+                      }
+                    }
+                    return el;
+                  })
+                })
+              })
               setChoice(arrOksResults);
               setCoincidence(true);
+              setIsSearchErr(false);
+              setIsDisabled(false);
             })
             .catch((err) => {
               console.log(`ошибка: ${err}`);
             })
         }
       } catch (err) {
+        setCoincidence(false);
+        setIsSearchErr(true);
+        setIsDisabled(true);
         console.log(`ошибка: ${err}`);
       }
     }
@@ -95,7 +107,6 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
     });
 
     setChoice(selectedOks);
-    setIsSelected(true);
     setCoincidence(true);
     setIsSearchErr(false);
     setIsDisabled(false);
@@ -106,7 +117,7 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
   }
 
   function handleValueChange(evt) {
-    setValue(evt.target.value)
+    setValue(evt.target.value);
   }
 
   function handleSearchSubmit(evt) {
@@ -127,14 +138,18 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
 
   return (
     <section className="announcement">
-      <h2 className="announcement__title">{ANNOUNCEMENT}</h2>
+      <h2 className="announcement__title">
+        {ANNOUNCEMENT}
+      </h2>
       <form
         className="announcement__form"
         name="myForm"
         onSubmit={handleSearchSubmit}
       >
         <fieldset className="announcement__fieldset">
-          <label className="announcement__label">{NAME}</label>
+          <label className="announcement__label">
+            {NAME}
+          </label>
           <input
             className="announcement__input"
             placeholder="Введите название объявления"
@@ -143,13 +158,17 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
             minLength="2"
             onChange={handleValueChange}
           />
-          <label className="announcement__label">{ANNOUNCEMENT}</label>
+          <label className="announcement__label">
+            {ANNOUNCEMENT}
+          </label>
           <textarea
             className="announcement__input announcement__textarea"
             placeholder="Введите текст объявления"
             onChange={handleSearchChange}
           />
-          <label className="announcement__label">{OKS}</label>
+          <label className="announcement__label">
+            {OKS}
+          </label>
           {isLoading ? (
             <Preloader/>
           ) : (
@@ -165,16 +184,15 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
                   code={item.code}
                   name={item.name}
                   value={item.name}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
                 />
               })}
             </select>
           )}
         </fieldset>
         {isSearchErr &&
-          <span className="announcement__error">{SELECT_OKS_SECTION}</span>
-        }
+          <span className="announcement__error">
+          {SELECT_OKS_SECTION}
+          </span>}
         <div className="announcement__btns">
           {isDisabled ? (
             <button
@@ -191,8 +209,7 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
               onClick={handleBtnClick}
             >
               {PLACE_AN_AD}
-            </button>
-          )}
+            </button>)}
           <button
             className="announcement__btn"
             type="submit"
@@ -205,8 +222,9 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
         choice={choice}
         setChoice={setChoice}
         coincidence={coincidence}
-        isSelected={isSelected}
-        setIsSelected={setIsSelected}
+        setCoincidence={setCoincidence}
+        setIsSearchErr={setIsSearchErr}
+        setIsDisabled={setIsDisabled}
       />
     </section>
   )
