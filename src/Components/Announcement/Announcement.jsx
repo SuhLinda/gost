@@ -39,13 +39,17 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
             .then((data) => {
               const arrOks = JSON.parse(localStorage.getItem(LIST));
 
-              // Init an array for holding rows data
-              const results = [];
+              let results = [];
               const arrOksResults = [];
 
               data.forEach((element) => {
-                results.push(element.results);
+                element.results.forEach((item) => {
+                  results.push(item);
+                });
               })
+
+              // Remove duplicates from the array
+              results = Array.from(new Set(results));
 
               choice.filter((item) => {
                 return setElementIndex(item);
@@ -53,19 +57,12 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
 
               results.forEach((item) => {
                 arrOks.forEach((element) => {
-                  item.filter((el) => {
-                    for (let i = 0, l = element.code.length; i < l; i++) {
-                      if (el === element.code) {
-                        arrOksResults.splice(elementIndex, 1);
-
-                        arrOksResults.push(element);
-                        console.log(arrOksResults)
-                      }
-                    }
-                    return el;
-                  })
+                  if (item === element.code) {
+                    arrOksResults.push(element);
+                  }
                 })
               })
+
               setChoice(arrOksResults);
               setCoincidence(true);
               setIsSearchErr(false);
@@ -225,6 +222,7 @@ function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setI
         setCoincidence={setCoincidence}
         setIsSearchErr={setIsSearchErr}
         setIsDisabled={setIsDisabled}
+        elementIndex={elementIndex}
       />
     </section>
   )

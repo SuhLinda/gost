@@ -27,7 +27,7 @@ function Card({ code, name, price, choice, setChoice, setCoincidence, setIsSearc
   }
 
   return (
-    <ul className={choice ? "list__container card__active" : "list__container card"}>
+    <ul className={choice ? "card__active" : "card"}>
       <h3 className="card__text">{code}</h3>
       <h3 className="card__text">{name}</h3>
       <h3 className="card__text">{`${price} p`}</h3>

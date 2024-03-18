@@ -9,11 +9,11 @@ function List({ choice, setChoice, coincidence, setCoincidence, setIsSearchErr, 
 
   return (
     <section className={coincidence ? "list__active" : "list"}>
-      <ul className="list__container">
-        <h3 className="list__title">{CODE}</h3>
+      <di className="list__container">
+        <li className="list__title">{CODE}</li>
         <h3 className="list__title">{NAME}</h3>
         <h3 className="list__title">{PRICE}</h3>
-      </ul>
+      </di>
       {choice.map((item) => {
         total += item.price;
         return <Card

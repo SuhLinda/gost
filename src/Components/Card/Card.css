@@ -3,10 +3,11 @@
 }
 
 .card__active {
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px 500px 100px 20px;
   gap: 10px;
   width: 100%;
-  max-height: max-content;
+  padding: 0;
   margin: 0;
 }
 
@@ -37,4 +38,15 @@
   height: 20px;
   padding: 0;
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .card__active {
+    grid-template-columns: 40px 190px 40px 20px;
+  }
+
+  .card__text {
+    font-size: 10px;
+    line-height: 12px;
+  }
 }
