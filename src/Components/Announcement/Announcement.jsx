@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
-import { oksApi } from '../../utils/ApiOks.jsx';
+import {oksApi} from '../../utils/ApiOks.jsx';
 import {
   regexp,
   LIST,
@@ -9,7 +9,6 @@ import {
   OKS,
   PLACE_AN_AD,
   TEXT_BASED_OKS,
-  CARD,
   SELECT_OKS_SECTION,
   SUCCESSFULLY_POSTED,
 } from '../../utils/utils.jsx';
@@ -18,38 +17,50 @@ import imageInfoTooltipSuccess from '../../images/info-tooltip_successfully.svg'
 
 import Option from '../Option/Option';
 import List from '../List/List';
-import Results from '../Results/Results';
 import Preloader from '../Preloader/Preloader';
 
-function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, setImage, setText }) {
+function Announcement({listCards, isLoading, setIsLoading, openInfoTooltip, setImage, setText}) {
   const [search, setSearch] = useState([]);
-  const [arrSearch, setArrSearch] = useState({});
-  const [data, setData] = useState([]);
   const [choice, setChoice] = useState([]);
   const [coincidence, setCoincidence] = useState(false);
   const [isSearchErr, setIsSearchErr] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [value, setValue] = useState([]);
-  const [sum, setSum] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
 
   async function handleWordsSearch() {
 
     if (search.length > 0) {
       try {
         const arrSearch = search.match(regexp);
-        setArrSearch(arrSearch);
 
         if (arrSearch) {
           oksApi.searchOks(arrSearch)
             .then((data) => {
+              const arrOks = JSON.parse(localStorage.getItem(LIST));
+
               // Init an array for holding rows data
               const results = [];
+              const arrOksResults = [];
 
               data.forEach((element) => {
-                results.push(element);
+                results.push(element.results);
               })
-              setData(results);
 
+              results.forEach((i) => {
+                arrOks.forEach((element) => {
+                  if (element.code !== i) {
+                    console.log(i, element.code)
+                  }
+                })
+
+
+              })
+
+              // console.log('cxs')
+
+              setChoice(arrOksResults);
+              setCoincidence(true);
             })
             .catch((err) => {
               console.log(`ошибка: ${err}`);
@@ -66,7 +77,6 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
 
     const arrOks = JSON.parse(localStorage.getItem(LIST));
     let selectedOks = [];
-    let sumOks = [];
     let options = evt.target.options;
 
     let selectedValues = [];
@@ -75,31 +85,20 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
         selectedValues.push(options[i].value);
       }
     }
+
     arrOks.forEach((item) => {
       selectedValues.forEach((value) => {
         if (item.name === value) {
           selectedOks.push(item);
-          sumOks.push(item.price);
         }
       })
     });
 
-    calculateTheAmount();
-
     setChoice(selectedOks);
-    setSum(sumOks);
+    setIsSelected(true);
     setCoincidence(true);
     setIsSearchErr(false);
     setIsDisabled(false);
-    localStorage.setItem(CARD, JSON.stringify(selectedValues));
-  }
-
-  function calculateTheAmount() {
-    if (sum.length > 0) {
-      for (let i = 0, l = sum.length; i < l; i++) {
-        console.log(sum)
-      }
-    }
   }
 
   function handleSearchChange(evt) {
@@ -179,21 +178,21 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
         <div className="announcement__btns">
           {isDisabled ? (
             <button
-            className="announcement__btn"
-            type="button"
-            disabled="disabled"
-          >
-            {PLACE_AN_AD}
-          </button>
+              className="announcement__btn"
+              type="button"
+              disabled="disabled"
+            >
+              {PLACE_AN_AD}
+            </button>
           ) : (
-              <button
+            <button
               className="announcement__btn"
               type="button"
               onClick={handleBtnClick}
             >
               {PLACE_AN_AD}
             </button>
-            )}
+          )}
           <button
             className="announcement__btn"
             type="submit"
@@ -204,13 +203,10 @@ function Announcement({ listCards, isLoading, setIsLoading, openInfoTooltip, set
       </form>
       <List
         choice={choice}
+        setChoice={setChoice}
         coincidence={coincidence}
-        sum={sum}
-        setSum={setSum}
-      />
-      <Results
-        key={data.query}
-        data={data}
+        isSelected={isSelected}
+        setIsSelected={setIsSelected}
       />
     </section>
   )

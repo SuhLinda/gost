@@ -26,3 +26,15 @@
 .card__sum {
   text-align: end;
 }
+
+.card__btn-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bdbbbb;
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+}
