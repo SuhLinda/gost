@@ -14,7 +14,9 @@ function Card({ code, name, price, choice, setChoice, isSelected, setIsSelected 
     console.log(elementIndex);
     let result = choice.splice(elementIndex, 1);
 
-    setChoice(choice)
+    setChoice((state) =>
+      state.filter((item) =>
+        item));
 
     console.log(result);
     // setIsSelected(false);
